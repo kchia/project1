@@ -1,7 +1,7 @@
 //some sprites taken from https://gamedevelopment.tutsplus.com/articles/enjoy-these-totally-free-space-based-shoot-em-up-sprites--gamedev-2368
 //some sprites from https://github.com/ansimuz/getting-started-with-phaser
 
-var config = {
+let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 300,
@@ -17,18 +17,18 @@ var config = {
         }
     }
 };
-var game = new Phaser.Game(config);
-var player;
-var randomY = Phaser.Math.Between(0, config.height);
-var scoreField;
-var score = 0;
-var activeWords = [];
-var typedWord = '';
-var newText;
-var group;
-var group1;
-var group2;
-var group3;
+let game = new Phaser.Game(config);
+let player;
+let randomY = Phaser.Math.Between(0, config.height);
+let scoreField;
+let score = 0;
+let activeWords = [];
+let typedWord = '';
+let newText;
+let group;
+let group1;
+let group2;
+let group3;
 function preload() {
     this.load.image('background', 'images/Backgrounds/farback.gif');
     this.load.spritesheet('player', 'images/Ship/Spritesheet_64x29.png', {
@@ -270,15 +270,7 @@ function update() {
         }
     }
 }
-// function moveShips(ship, speed) {
-//     randomY = Phaser.Math.Between(0, config.height);
-//     if (ship.x > -40) {
-//         ship.x -= speed;
-//     } else {
-//         ship.x = 800;
-//         ship.y = randomY;
-//     }
-// }
+
 function keyDown(evt) {
     let key = evt.key.toUpperCase();
     if (typedWord === '') {
@@ -306,29 +298,18 @@ function keyDown(evt) {
         }
     } else {
         //handle word
-        switch (typedWord) {
-            case group.children.entries[0].word:
-                if (key === group.children.entries[1]._text[0]) {
-                    handleKeyPress(group);
-                }
-                break;
-            case group1.children.entries[0].word:
-                if (key === group1.children.entries[1]._text[0]) {
-                    handleKeyPress(group1);
-                }
-                break;
-            case group2.children.entries[0].word:
-                if (key === group2.children.entries[1]._text[0]) {
-                    handleKeyPress(group2);
-                }
-                break;
-            case group3.children.entries[0].word:
-                if (key === group3.children.entries[1]._text[0]) {
-                    handleKeyPress(group3);
-                }
-                break;
-        }
+        handleWord(key, typedWord);
     }
+}
+
+function handleWord(key, userInput) {
+    [group, group1, group2, group3].forEach(group => {
+        if (userInput === group.children.entries[0].word) {
+            if (key === group.children.entries[1]._text[0]) {
+                handleKeyPress(group);
+            }
+        }
+    });
 }
 function handleKeyPress(passedGroup) {
     if (typeof newText === 'undefined' || newText === '') {
