@@ -29,6 +29,7 @@ let group;
 let group1;
 let group2;
 let group3;
+let groups = [group, group1, group2, group3, group4];
 function preload() {
     this.load.image('background', 'images/Backgrounds/farback.gif');
     this.load.spritesheet('player', 'images/Ship/Spritesheet_64x29.png', {
@@ -237,58 +238,34 @@ function update() {
         makeGroup(group3, fancyEnemy3, text);
     }
     scoreField.setText('Score : ' + score);
-    // Hou comment: Try to refactor lines 241-271 into its own function.
-    if (newText) {
-        if (typedWord) {
-            switch (typedWord) {
-                case group.children.entries[0].word:
-                    if (newText.length === 0) {
-                        group.children.entries[1].setText();
-                    } else {
-                        group.children.entries[1].setText(newText);
-                    }
-                    break;
-                case group1.children.entries[0].word:
-                    if (newText.length === 0) {
-                        group1.children.entries[1].setText();
-                    } else {
-                        group1.children.entries[1].setText(newText);
-                    }
-                    break;
-                case group2.children.entries[0].word:
-                    if (newText.length === 0) {
-                        group2.children.entries[1].setText();
-                    } else {
-                        group2.children.entries[1].setText(newText);
-                    }
-                    break;
-                case group3.children.entries[0].word:
-                    if (newText.length === 0) {
-                        group3.children.entries[1].setText();
-                    } else {
-                        group3.children.entries[1].setText(newText);
-                    }
-                    break;
-            }
-        }
-    }
+    setText(typedWord, newText);
 }
 
+function setText(userInput, text) {
+    if (userInput && text) {
+        groups.forEach(passedGroup => {
+            let entries = passedGroup.children.entries;
+            if (userInput === entries[0].word) {
+                entries[1].setText(text.length === 0 ? undefined : text);
+            }
+        });
+    }
+}
 function keyDown(evt) {
     let key = evt.key.toUpperCase();
     handleWord(key, typedWord);
 }
 
 function handleWord(key, userInput) {
-    [group, group1, group2, group3].forEach(group => {
-        let entries = group.children.entries;
+    groups.forEach(passedGroup => {
+        let entries = passedGroup.children.entries;
         if (key === entries[1]._text[0]) {
             if (userInput.length === 0) {
-                handleKeyPress(group);
+                handleKeyPress(passedGroup);
                 typedWord = entries[0].word;
             }
             if (userInput === entries[0].word) {
-                handleKeyPress(group);
+                handleKeyPress(passedGroup);
             }
         }
     });
