@@ -297,15 +297,15 @@ function keyDown(evt) {
                 break;
         }
     } else {
-        //handle word
         handleWord(key, typedWord);
     }
 }
 
 function handleWord(key, userInput) {
     [group, group1, group2, group3].forEach(group => {
-        if (userInput === group.children.entries[0].word) {
-            if (key === group.children.entries[1]._text[0]) {
+        let entries = group.children.entries;
+        if (userInput === entries[0].word) {
+            if (key === entries[1]._text[0]) {
                 handleKeyPress(group);
             }
         }
