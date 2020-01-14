@@ -52,6 +52,8 @@ function preload() {
         frameHeight: 32
     });
 }
+
+// Hou comment: this function is getting big, so I'd split its logic into smaller functions.
 function create() {
     //add all sprites
     this.add.image(0, 0, 'background');
@@ -235,6 +237,7 @@ function update() {
         makeGroup(group3, fancyEnemy3, text);
     }
     scoreField.setText('Score : ' + score);
+    // Hou comment: Try to refactor lines 241-271 into its own function.
     if (newText) {
         if (typedWord) {
             switch (typedWord) {
@@ -311,6 +314,7 @@ function makeGroup(passedGroup, ship, text) {
 }
 function moveGroup(group, speed) {
     randomY = Phaser.Math.Between(0, config.height);
+    // Hou comment: instead of repeatedly accessing group.children.entries, consider storing the value in a variable so you can reuse on lines 315-322
     if (group.children.entries[0].x > -40) {
         group.children.entries[0].x -= speed;
         group.children.entries[1].x -= speed;
