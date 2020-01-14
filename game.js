@@ -273,39 +273,18 @@ function update() {
 
 function keyDown(evt) {
     let key = evt.key.toUpperCase();
-    if (typedWord === '') {
-        switch (key) {
-            case group.children.entries[1]._text[0]:
-                //call function to handle
-                handleKeyPress(group);
-                typedWord = group.children.entries[0].word;
-                break;
-            case group1.children.entries[1]._text[0]:
-                //call function to handle
-                handleKeyPress(group1);
-                typedWord = group1.children.entries[0].word;
-                break;
-            case group2.children.entries[1]._text[0]:
-                //call function to handle
-                handleKeyPress(group2);
-                typedWord = group2.children.entries[0].word;
-                break;
-            case group3.children.entries[1]._text[0]:
-                //call function to handle
-                handleKeyPress(group3);
-                typedWord = group3.children.entries[0].word;
-                break;
-        }
-    } else {
-        handleWord(key, typedWord);
-    }
+    handleWord(key, typedWord);
 }
 
 function handleWord(key, userInput) {
     [group, group1, group2, group3].forEach(group => {
         let entries = group.children.entries;
-        if (userInput === entries[0].word) {
-            if (key === entries[1]._text[0]) {
+        if (key === entries[1]._text[0]) {
+            if (userInput.length === 0) {
+                handleKeyPress(group);
+                typedWord = entries[0].word;
+            }
+            if (userInput === entries[0].word) {
                 handleKeyPress(group);
             }
         }
